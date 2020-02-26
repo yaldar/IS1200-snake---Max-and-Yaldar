@@ -25,7 +25,7 @@ static void num32asc(char *s, int);
 
 int i, j;
 int xpos=60;
-int ypos=16;
+int ypos=0;
 
 /* quicksleep:
    A simple function to create a small delay.
@@ -219,6 +219,20 @@ void display_update(void)
   }
 }
 
+unsigned char Reverse_bits(unsigned char num){
+
+    int i=7; //size of unsigned char -1, on most machine is 8bits
+    unsigned char j=0;
+    unsigned char temp=0;
+
+    while(i>=0){
+    temp |= ((num>>j)&1)<< i;
+    i--;
+    j++;
+    }
+    return temp; 
+
+}
 void xy_show(int x, int y)
 {
   int byte_in_disp;
@@ -247,34 +261,36 @@ void xy_show(int x, int y)
   }
 
   
-  if (y > 24){
+  if (y >= 24){
     byte_in_disp = (128 * 0) + x;
     bit_in_stripe= y - (8 * 3);
   }
 
-  else if (y > 16){
+  else if (y >= 16){
     byte_in_disp = (128 * 1) + x;
     bit_in_stripe= y - (8 * 2);
 
 }
-  else if (y > 8){
+  else if (y >= 8){
 
     byte_in_disp = (128 * 2) + x;
     bit_in_stripe= y - (8 * 1);
 
 }
-  else if (y > 0){
+  else if (y >= 0){
     byte_in_disp = (128 * 3) + x;
     bit_in_stripe= y - (8 * 0);
 
   }
   
+  num_mask=1;
 int i;
-  for ( i=0; i< bit_in_stripe; i++ ){
-    num_mask= 2 * 2;
+  for ( i=1; i< bit_in_stripe; i++ ){
+    num_mask= num_mask * 2;
   }
 
   
+  num_mask = Reverse_bits(num_mask);
 
   disp[byte_in_disp]= disp[byte_in_disp] & ~num_mask;
   display_image(0, disp);
