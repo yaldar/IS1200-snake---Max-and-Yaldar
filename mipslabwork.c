@@ -29,9 +29,28 @@ int i = 0;
 void user_isr( void ) {
 	IFSCLR(0) = (1 << 8);
 	timeoutcount++;
-if(timeoutcount == 5) {
+    int button = getbtns();
+
+  if(timeoutcount == 1) {
 	timeoutcount = 0;
+
+
+if(button==1){
+
+  move_right();
+}
+if(button==2){
+  move_up();
+}
+if(button==4){
+  move_down();
+}
+
+if(button==8){
   move_left();
+}
+
+  //move_left();
 	//time2string( textstring, mytime );
 	//display_string( 3, textstring );
   //display_image(20, icon);
@@ -60,6 +79,7 @@ T2CONSET = 1 << 15;
 IECSET(0) = 1 << 8;
 IPCSET(2) = 0x1f;
 enable_interrupt();
+display_clear();
 
 }
 

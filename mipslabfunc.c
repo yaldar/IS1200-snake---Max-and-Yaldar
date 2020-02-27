@@ -142,6 +142,8 @@ void display_init(void)
   spi_send_recv(0x20);
 
   spi_send_recv(0xAF);
+
+  display_clear(); //also clear display
 }
 
 void display_string(int line, char *s)
@@ -242,22 +244,22 @@ void xy_show(int x, int y)  //draws one pixel to the display. 0 < x < 128. 0 < y
                     // if x is bigger than the width, loop around
   while (x > 128)  
   {
-    x = x - 128;
+    x = x - 129;
   }
 
   while (x < 0)
   {
-    x = x + 128;
+    x = x + 129;
   }
 
   while (y > 32)
   {
-    y = y - 32;
+    y = y - 33;
   }
 
   while (y < 0)
   {
-    y = y + 32;
+    y = y + 33;
   }
 
   
@@ -283,9 +285,9 @@ void xy_show(int x, int y)  //draws one pixel to the display. 0 < x < 128. 0 < y
 
   }
   
-  num_mask=1;
+num_mask=1;
 int i;
-  for ( i=1; i< bit_in_stripe; i++ ){
+  for ( i=0; i< bit_in_stripe; i++ ){
     num_mask= num_mask * 2;
   }
 

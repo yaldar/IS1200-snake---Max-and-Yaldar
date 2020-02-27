@@ -37,6 +37,10 @@ void display_debug( volatile int * const addr );
 void display_clear(void);
 void clear_string(void);
 void move_left(void);
+void move_right(void);
+void move_up(void);
+void move_down(void);
+
 
 void xy_show(int , int );
 
