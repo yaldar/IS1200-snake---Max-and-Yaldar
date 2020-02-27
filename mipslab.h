@@ -45,6 +45,7 @@ void move_down(void);
 void xy_show(int , int );
 
 
+int curr_direct;
 /* Declare bitmap array containing font */
 extern const uint8_t const font[128*8];
 /* Declare bitmap array containing icon */

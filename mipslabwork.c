@@ -16,6 +16,8 @@
 
 int prime = 1234567;
 
+int curr_direct;
+
 //int mytime = 0x5957;
 double timeoutcount = 0;
 //char textstring[] = "text, more text, and even more text!";
@@ -31,22 +33,25 @@ void user_isr( void ) {
 	timeoutcount++;
     int button = getbtns();
 
+
+    
+
   if(timeoutcount == 1) {
 	timeoutcount = 0;
 
 
-if(button==1){
+while(curr_direct==1){
 
   move_right();
 }
-if(button==2){
+while(curr_direct==2){
   move_up();
 }
-if(button==4){
+while(curr_direct==4){
   move_down();
 }
 
-if(button==8){
+while(curr_direct==8){
   move_left();
 }
 
@@ -79,6 +84,10 @@ T2CONSET = 1 << 15;
 IECSET(0) = 1 << 8;
 IPCSET(2) = 0x1f;
 enable_interrupt();
+
+curr_direct=4;
+
+
 display_clear();
 
 }

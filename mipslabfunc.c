@@ -24,8 +24,8 @@ static void num32asc(char *s, int);
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
 int i, j;
-int xpos=60;
-int ypos=0;
+int xpos = 60;
+int ypos = 0;
 
 /* quicksleep:
    A simple function to create a small delay.
@@ -221,28 +221,29 @@ void display_update(void)
   }
 }
 
-unsigned char Reverse_bits(unsigned char num){
+unsigned char Reverse_bits(unsigned char num)
+{
 
-    int i=7; //size of unsigned char -1, on most machine is 8bits
-    unsigned char j=0;
-    unsigned char temp=0;
+  int i = 7; //size of unsigned char -1, on most machine is 8bits
+  unsigned char j = 0;
+  unsigned char temp = 0;
 
-    while(i>=0){
-    temp |= ((num>>j)&1)<< i;
+  while (i >= 0)
+  {
+    temp |= ((num >> j) & 1) << i;
     i--;
     j++;
-    }
-    return temp; 
-
+  }
+  return temp;
 }
-void xy_show(int x, int y)  //draws one pixel to the display. 0 < x < 128. 0 < y < 32.
+void xy_show(int x, int y) //draws one pixel to the display. 0 < x < 128. 0 < y < 32.
 {
   int byte_in_disp;
   int bit_in_stripe;
 
   int num_mask;
-                    // if x is bigger than the width, loop around
-  while (x > 128)  
+  // if x is bigger than the width, loop around
+  while (x > 128)
   {
     x = x - 129;
   }
@@ -262,72 +263,105 @@ void xy_show(int x, int y)  //draws one pixel to the display. 0 < x < 128. 0 < y
     y = y + 33;
   }
 
-  
-  if (y >= 24){  //to know which page we're on
+  if (y >= 24)
+  { //to know which page we're on
     byte_in_disp = (128 * 0) + x;
-    bit_in_stripe= y - (8 * 3);
+    bit_in_stripe = y - (8 * 3);
   }
 
-  else if (y >= 16){
+  else if (y >= 16)
+  {
     byte_in_disp = (128 * 1) + x;
-    bit_in_stripe= y - (8 * 2);
-
-}
-  else if (y >= 8){
+    bit_in_stripe = y - (8 * 2);
+  }
+  else if (y >= 8)
+  {
 
     byte_in_disp = (128 * 2) + x;
-    bit_in_stripe= y - (8 * 1);
-
-}
-  else if (y >= 0){
+    bit_in_stripe = y - (8 * 1);
+  }
+  else if (y >= 0)
+  {
     byte_in_disp = (128 * 3) + x;
-    bit_in_stripe= y - (8 * 0);
-
-  }
-  
-num_mask=1;
-int i;
-  for ( i=0; i< bit_in_stripe; i++ ){
-    num_mask= num_mask * 2;
+    bit_in_stripe = y - (8 * 0);
   }
 
-  
+  num_mask = 1;
+  int i;
+  for (i = 0; i < bit_in_stripe; i++)
+  {
+    num_mask = num_mask * 2;
+  }
+
   num_mask = Reverse_bits(num_mask);
 
-  disp[byte_in_disp]= disp[byte_in_disp] & ~num_mask;
+  disp[byte_in_disp] = disp[byte_in_disp] & ~num_mask;
   display_image(0, disp);
 }
 
+void move_left(void)
+{
 
-void move_left(void){
-  xpos=xpos-1;
+  if (curr_direct == 1 || curr_direct == 4)
+  {
+    return;
+  }
+
   
-  xy_show(xpos, ypos);
 
+    xpos = xpos - 1;
+
+    xy_show(xpos, ypos);
+  
 }
 
-void move_right(void){
-  xpos=xpos+1;
-  
-  xy_show(xpos, ypos);
+void move_right(void)
+{
 
+  if (curr_direct == 1 || curr_direct == 4)
+  {
+    return;
+  }
+
+  
+
+    xpos = xpos + 1;
+
+    xy_show(xpos, ypos);
+  
 }
 
-void move_up(void){
-  ypos=ypos + 1;
-  
-  xy_show(xpos, ypos);
+void move_up(void)
+{
+  if (curr_direct == 2 || curr_direct == 3)
+  {
+    return;
+  }
 
+  
+
+
+    ypos = ypos + 1;
+
+    xy_show(xpos, ypos);
+  
 }
 
-void move_down(void){
-  ypos=ypos-1;
+void move_down(void)
+{
+
+  if (curr_direct == 2 || curr_direct == 3)
+  {
+    return;
+  }
+
   
-  xy_show(xpos, ypos);
 
+    ypos = ypos - 1;
+
+    xy_show(xpos, ypos);
+  
 }
-
-
 
 /* Helper function, local to this file.
    Converts a number to hexadecimal ASCII digits. */
