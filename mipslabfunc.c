@@ -233,14 +233,14 @@ unsigned char Reverse_bits(unsigned char num){
     return temp; 
 
 }
-void xy_show(int x, int y)
+void xy_show(int x, int y)  //draws one pixel to the display. 0 < x < 128. 0 < y < 32.
 {
   int byte_in_disp;
   int bit_in_stripe;
 
   int num_mask;
-
-  while (x > 128)
+                    // if x is bigger than the width, loop around
+  while (x > 128)  
   {
     x = x - 128;
   }
@@ -261,7 +261,7 @@ void xy_show(int x, int y)
   }
 
   
-  if (y >= 24){
+  if (y >= 24){  //to know which page we're on
     byte_in_disp = (128 * 0) + x;
     bit_in_stripe= y - (8 * 3);
   }
@@ -303,6 +303,30 @@ void move_left(void){
   xy_show(xpos, ypos);
 
 }
+
+void move_right(void){
+  xpos=xpos+1;
+  
+  xy_show(xpos, ypos);
+
+}
+
+void move_up(void){
+  ypos=ypos + 1;
+  
+  xy_show(xpos, ypos);
+
+}
+
+void move_down(void){
+  ypos=ypos-1;
+  
+  xy_show(xpos, ypos);
+
+}
+
+
+
 /* Helper function, local to this file.
    Converts a number to hexadecimal ASCII digits. */
 static void num32asc(char *s, int n)
