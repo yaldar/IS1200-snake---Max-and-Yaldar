@@ -6,6 +6,7 @@
 
   #
   # Please keep the two macros PUSH and POP unchanged
+  # Changed by Maximilian Nyberg 2020
   #
 
 
@@ -109,6 +110,7 @@ time2string:
 	nop
 	sb	$v0, 4($s0)
 	sb 	$0, 5($s0)
+	continue:
 	POP	$ra
 	POP 	$s0
 	POP	$s1
